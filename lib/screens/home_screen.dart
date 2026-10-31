@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 28),
           children: [
-            _HeroPanel(),
+            const _HeroPanel(),
             const SizedBox(height: 17),
             const _WorkflowStrip(),
             const SizedBox(height: 24),
