@@ -129,11 +129,10 @@ class _CaseHistoryScreenState extends State<CaseHistoryScreen> {
                   ),
                   title: Text((item['project_type'] ?? '').toString()),
                   subtitle: Text(
-                    '${_formatDate(item['created_at'])}
-'
-                    '${location.isEmpty ? 'الموقع غير محدد' : location}
-'
+                    '${_formatDate(item['created_at'])}\n'
+                    '${location.isEmpty ? 'الموقع غير محدد' : location}\n'
                     '${description.length > 90 ? '${description.substring(0, 90)}…' : description}',
+                  ),
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
                   ),
