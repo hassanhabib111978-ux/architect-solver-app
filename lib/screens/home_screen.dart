@@ -449,7 +449,7 @@ class _HeroPanel extends StatelessWidget {
                   ),
                   const SizedBox(height: 19),
                   const Text(
-                    'من المشكلة إلى\\nالبديل الأنسب.',
+                    'من المشكلة إلى\nالبديل الأنسب.',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 27,
