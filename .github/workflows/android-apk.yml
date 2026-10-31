@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -29,6 +33,9 @@ jobs:
 
       - name: Analyze Dart code
         run: flutter analyze
+
+      - name: Run widget tests
+        run: flutter test
 
       - name: Build debug APK
         run: flutter build apk --debug
