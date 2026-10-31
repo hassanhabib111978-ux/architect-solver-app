@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../services/ai_service.dart';
+import '../services/case_history_service.dart';
+import 'case_history_screen.dart';
 import 'cost_calculator_screen.dart';
 import 'guide_screen.dart';
+import 'site_image_screen.dart';
 import 'solution_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,6 +46,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() => _openingSolutions = true);
     try {
+      try {
+        await CaseHistoryService.instance.saveCase(
+          description: description,
+          projectType: projectType,
+          location: location,
+        );
+      } catch (_) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('تعذر حفظ الحالة محلياً، لكن يمكنك متابعة طلبك.'),
+            ),
+          );
+        }
+      }
+
+      if (!mounted) return;
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
           builder: (_) => SolutionScreen(
@@ -56,6 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
     } finally {
       if (mounted) setState(() => _openingSolutions = false);
     }
+  }
+
+  void _open(Widget screen) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => screen),
+    );
   }
 
   @override
@@ -114,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
-                    value: _projectType,
+                    initialValue: _projectType,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.apartment),
                     ),
@@ -187,11 +212,27 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const CostCalculatorScreen(),
-                      ),
-                    ),
+                    onPressed: () => _open(const SiteImageScreen()),
+                    icon: const Icon(Icons.add_a_photo_outlined),
+                    label: const Text('تصوير الموقع'),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () => _open(const CaseHistoryScreen()),
+                    icon: const Icon(Icons.history),
+                    label: const Text('سجل الحالات'),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () => _open(const CostCalculatorScreen()),
                     icon: const Icon(Icons.calculate_outlined),
                     label: const Text('حاسبة التكلفة'),
                   ),
@@ -199,11 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const GuideScreen(),
-                      ),
-                    ),
+                    onPressed: () => _open(const GuideScreen()),
                     icon: const Icon(Icons.menu_book_outlined),
                     label: const Text('دليل إرشادي'),
                   ),
