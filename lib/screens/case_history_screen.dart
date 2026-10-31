@@ -128,7 +128,7 @@ class _CaseHistoryScreenState extends State<CaseHistoryScreen> {
                     child: Icon(Icons.engineering_outlined),
                   ),
                   title: Text((item['project_type'] ?? '').toString()),
-                                    subtitle: Text(
+                  subtitle: Text(
                     '${_formatDate(item['created_at'])}\n'
                     '${location.isEmpty ? 'الموقع غير محدد' : location}\n'
                     '${description.length > 90 ? '${description.substring(0, 90)}…' : description}',
