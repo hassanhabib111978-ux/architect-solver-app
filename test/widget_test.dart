@@ -7,6 +7,6 @@ void main() {
     await tester.pumpWidget(const ArchitectSolverApp());
 
     expect(find.text('مساعد البدائل الهندسية'), findsOneWidget);
-    expect(find.text('عرض البدائل الهندسية'), findsOneWidget);
+    expect(find.text('اعرض البدائل الهندسية'), findsOneWidget);
   });
 }
